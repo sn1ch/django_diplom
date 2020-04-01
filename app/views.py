@@ -13,6 +13,31 @@ class StartView(View):
         departaments = Departament.objects.all()
         context = {'objects': topics_products,
                    'departaments': departaments}
+        # print(request.session.items())
+        return render(request, template, context)
+
+    def post(self, request):
+        template = 'app/index1.html'
+        topics_products = Topic.objects.all().prefetch_related('product').order_by('-creation_date')
+        departaments = Departament.objects.all()
+        product_id = request.POST['product_id']
+        print(product_id)
+        # print(type(product_id))
+        # print(a.values('product_id'))
+
+        if 'cart' not in request.session:
+            request.session['cart'] = list()
+            request.session['cart'].append({'product_id': int(product_id), 'values': 1})
+        # else:
+        #     for i in request.session['cart']:
+        #         if i['product_id'] == int(product_id):
+        #             i['values'] += 1
+        #         else:
+        #             request.session['cart'].append({'product_id': int(product_id), 'values': 1})
+
+        print(request.session['cart'])
+        context = {'objects': topics_products,
+                   'departaments': departaments}
 
         return render(request, template, context)
 
@@ -23,6 +48,9 @@ class ProductView(View):
         products = Product.objects.filter(slug_name=slug)
         context = {'products': products}
         return render(request, template, context)
+
+    def post(self, request):
+        pass
 
 
 class CatalogView(View):
@@ -49,19 +77,10 @@ class CatalogView(View):
         return render(request, template, context)
 
 
-class LoginView(View):
+class CartView(View):
     def get(self, request):
-        template = 'registration/login.html'
-        form = UserAuthenticationForm
-        context = {
-            'form': form
-        }
-        return render(request, template, context)
-
-    def post(self, request):
-        template = 'registration/login.html'
-        form = UserAuthenticationForm
-        context = {
-            'form': form
-        }
-        return render(request, template, context)
+        if not request.user.is_authenticated():
+            return
+            pass
+        else:
+            pass

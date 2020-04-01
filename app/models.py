@@ -11,6 +11,7 @@ class Product(models.Model):
     img = models.ImageField(upload_to='products/%Y/%m/%d/', verbose_name='Изображение')
     departament = models.ForeignKey('Departament', on_delete=models.CASCADE)
 
+
     def __str__(self):
         return self.name
 
@@ -63,3 +64,8 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.email
+
+
+# class Order(models.Model):
+#     user = models.ManyToManyField('User')
+#     products = models.ManyToManyField(Product)

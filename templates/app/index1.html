@@ -56,10 +56,15 @@
            href="./cart.html">
             Корзина</a>
 
-
+        {% if request.user.is_authenticated %}
+                <a class="btn btn-outline-success my-2 my-sm-0" role="button"
+           href="{% url 'logout'%}">
+            Выйти</a>
+        {% else %}
         <a class="btn btn-outline-success my-2 my-sm-0" role="button"
            href="/login">
             Войти</a>
+        {% endif %}
 
     </div>
 </nav>
@@ -84,7 +89,9 @@
                 <a href="./product/{{product.slug_name}}">
                     <img src="{{ MEDIA_URL}} {{product.img.url}}" width="180" height="200">
                 </a>
-                <form>
+                <form method="post" action="{% url 'base_page' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="product_id" value="{{ product.id }}">
                     <input type="submit" class="btn btn-secondary" value="Добавить в корзину »">
                 </form>
             </div>

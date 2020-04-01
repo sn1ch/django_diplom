@@ -17,7 +17,8 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from app.views import StartView, ProductView, CatalogView, LoginView
+from app.views import StartView, ProductView, CatalogView
+
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
@@ -27,6 +28,7 @@ urlpatterns = [
     path('product/<slug:slug>/', ProductView.as_view(), name='product_page'),
     path('catalog/<slug:slug>/', CatalogView.as_view(), name='catalog_page'),
     path('catalog?page=<int:num>/', CatalogView.as_view(), name='catalog_page'),
-    # path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
-    path('login/', LoginView.as_view(), name='login'),
+    path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    # path('login/', LoginView.as_view(), name='login'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

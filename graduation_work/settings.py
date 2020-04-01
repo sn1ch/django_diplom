@@ -133,3 +133,4 @@ AUTH_USER_MODEL = 'app.User'
 
 
 LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/login'

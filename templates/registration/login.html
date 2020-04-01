@@ -11,15 +11,32 @@
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
 </head>
 <body class="text-center" data-gr-c-s-loaded="true">
+{% if request.user.is_authenticated %}
+    Вы уже авторизованны
+      <form>
+         <button class="btn btn-lg btn-primary btn-block" type="submit" formaction="{% url 'logout'%}">Выйти</button>
+      </form>
+{% else%}
+<form class="form-signin" action="{% url 'login' %}" method="POST">
+    {% csrf_token %}
+    <img class="mb-4" src="{% static 'image/logo.svg' %}" alt="" width="72" height="72">
+    <h1 class="h3 mb-3 font-weight-normal">Вход</h1>
 
+    {{ form.username.errors }}
+    <p>
+        <label for="id_username" class="sr-only">Email address:</label>
+        <input type="text" class="form-control" name="username" placeholder="Email" autofocus="" required=""
+               id="id_username"></p>
 
-<form action="{% url 'login' %}" method="POST">
-  {% csrf_token %}
-  {{form}}
-  <input type="submit" value="cukla">
+    <p> {{ form.password.errors }}
+        <label for="id_password" class="sr-only">Password:</label>
+        <input type="password" class="form-control" placeholder="Пароль" name="password" required="" id="id_password">
+    </p>
 
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Войти</button>
     <p class="mt-5 mb-3 text-muted">© Просто магазин 2018</p>
 </form>
+{% endif %}
 
 <script src="{% static 'js/jquery-3.3.1.slim.min.js' %}"></script>
 <script src="{% static 'js/popper.min.js' %}"></script>
